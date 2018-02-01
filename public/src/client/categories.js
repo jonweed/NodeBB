@@ -37,7 +37,6 @@ define('forum/categories', ['components'], function (components) {
 		var recentPosts = category.find('[component="category/posts"]');
 
 		app.parseAndTranslate('partials/categories/lastpost', 'posts', { posts: [post] }, function (html) {
-
 			html.find('.post-content img:not(.not-responsive)').addClass('img-responsive');
 			html.hide();
 			if (recentPosts.length === 0) {
