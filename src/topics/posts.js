@@ -119,6 +119,12 @@ module.exports = function (Topics) {
 						postObj.upvoted = results.voteData.upvotes[i];
 						postObj.downvoted = results.voteData.downvotes[i];
 						postObj.votes = postObj.votes || 0;
+//*
+						if (postObj.votes > 999) {
+							postObj.votes = (postObj.votes / 1000).toFixed(1);
+							postObj.votes = (postObj.votes / parseInt(postObj.votes, 10) == 1) ? parseInt(postObj.votes, 10) + 'k' : postObj.votes + 'k';
+						}
+//*/
 						postObj.replies = results.replies[i];
 						postObj.selfPost = !!parseInt(uid, 10) && parseInt(uid, 10) === parseInt(postObj.uid, 10);
 

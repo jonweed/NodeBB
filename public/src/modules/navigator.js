@@ -152,6 +152,9 @@ define('navigator', ['forum/pagination', 'components'], function (pagination, co
 
 			if (distanceToMiddle < previousDistance) {
 				index = parseInt($(this).attr('data-index'), 10) + 1;
+//*
+				index = (!index) ? parseInt($(this).attr('data-toindex'), 10) + 1 : index;
+//*/
 				previousDistance = distanceToMiddle;
 			}
 		});
