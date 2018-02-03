@@ -25,6 +25,13 @@ module.exports = function (SocketUser) {
 			return callback(new Error('[[error:invalid-uid]]'));
 		}
 
+//*
+		if (status == 'disconnect') {
+			websockets.server.emit('event:user_status_change', {uid: socket.uid, status: 'offline'});
+			return callback();
+		}
+//*/
+
 		var allowedStatus = ['online', 'offline', 'dnd', 'away'];
 		if (allowedStatus.indexOf(status) === -1) {
 			return callback(new Error('[[error:invalid-user-status]]'));

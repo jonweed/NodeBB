@@ -9,6 +9,7 @@ var posts = require('../posts');
 var topics = require('../topics');
 var privileges = require('../privileges');
 var batch = require('../batch');
+var plugins = require('../plugins');
 
 module.exports = function (Categories) {
 	Categories.getRecentReplies = function (cid, uid, count, callback) {
@@ -92,7 +93,13 @@ module.exports = function (Categories) {
 			},
 			function (results, next) {
 				var tids = _.uniq(_.flatten(results).filter(Boolean));
-
+				plugins.fireHook('filter:categories.recent.replies', {
+					privilege: 'read',
+					uid: uid,
+					tids: tids,
+				}, next);
+			},
+			function (tids, next) {
 				privileges.topics.filterTids('read', tids, uid, next);
 			},
 			function (tids, next) {
