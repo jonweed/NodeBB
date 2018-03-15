@@ -48,7 +48,8 @@ define('forum/topic/replies', ['navigator', 'components', 'forum/topic/posts'], 
 
 //				app.parseAndTranslate('topic', 'posts', tplData, function (html) {
 				app.parseAndTranslate('replies', tplData, function (html) {
-					$('<div>', { component: 'post/replies' }).html(html).hide().insertAfter(button).slideDown('fast');
+//					$('<div>', { component: 'post/replies' }).html(html).appendTo('.toggle-replies').slideDown('fast');
+					post.find('.toggle-replies').append($('<div>', { component: 'post/replies' }).html(html)).slide('open');
 					posts.processPage(html);
 					$(window).trigger('action:posts.loaded', { posts: data });
 				});
@@ -57,8 +58,8 @@ define('forum/topic/replies', ['navigator', 'components', 'forum/topic/posts'], 
 			close.addClass('hidden');
 			open.removeClass('hidden');
 			loading.addClass('hidden');
-			post.find('[component="post/replies"]').slideUp('fast', function () {
-				$(this).remove();
+			post.find('.toggle-replies').slide('close', function(){
+				post.find('[component="post/replies"]').remove();
 			});
 		}
 	}
