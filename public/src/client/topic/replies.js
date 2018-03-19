@@ -45,8 +45,11 @@ define('forum/topic/replies', ['navigator', 'components', 'forum/topic/posts'], 
 					loggedIn: !!app.user.uid,
 					hideReplies: true,
 				};
-				app.parseAndTranslate('topic', 'posts', tplData, function (html) {
-					$('<div>', { component: 'post/replies' }).html(html).hide().insertAfter(button).slideDown('fast');
+
+//				app.parseAndTranslate('topic', 'posts', tplData, function (html) {
+				app.parseAndTranslate('replies', tplData, function (html) {
+//					$('<div>', { component: 'post/replies' }).html(html).appendTo('.toggle-replies').slideDown('fast');
+					post.find('.toggle-replies').append($('<div>', { component: 'post/replies' }).html(html)).slide('open');
 					posts.processPage(html);
 					$(window).trigger('action:posts.loaded', { posts: data });
 				});
@@ -55,8 +58,8 @@ define('forum/topic/replies', ['navigator', 'components', 'forum/topic/posts'], 
 			close.addClass('hidden');
 			open.removeClass('hidden');
 			loading.addClass('hidden');
-			post.find('[component="post/replies"]').slideUp('fast', function () {
-				$(this).remove();
+			post.find('.toggle-replies').slide('close', function(){
+				post.find('[component="post/replies"]').remove();
 			});
 		}
 	}
@@ -68,7 +71,8 @@ define('forum/topic/replies', ['navigator', 'components', 'forum/topic/posts'], 
 		}
 		incrementCount(post, 1);
 		data.hideReplies = true;
-		app.parseAndTranslate('topic', 'posts', data, function (html) {
+//		app.parseAndTranslate('topic', 'posts', data, function (html) {
+		app.parseAndTranslate('replies', data, function (html) {
 			var replies = $('[component="post"][data-pid="' + post.toPid + '"] [component="post/replies"]').first();
 			if (replies.length) {
 				replies.append(html);
